@@ -16,7 +16,7 @@ Pick your provider, pick your tier:
 | Provider | premium | daily | fast | free |
 |----------|---------|-------|------|------|
 | **OpenAI (codex)** | GPT-5.4 high/xhigh | GPT-5.4-mini | GPT-5.3-codex-spark | GPT-5-nano |
-| **OpenCode Go** | Kimi K2.5 max + GLM-5 | Kimi K2.5 + MiniMax | MiniMax + DeepSeek | Kimi-free + Big Pickle |
+| **OpenCode Go** | GLM-5.1 + Kimi K2.6 | Kimi K2.5 + DeepSeek V4 Pro | MiniMax M2.5 + DeepSeek V4 Flash | Kimi-free + Big Pickle |
 | **GitHub Copilot** | Claude Sonnet 4 + GPT-4o | GPT-4o | o3-mini | Nano fallback |
 | **Anthropic (claude)** | Claude Opus 4 + Sonnet 4 | Claude Sonnet 4 | Claude Haiku 3.5 | Nano fallback |
 | **Google (gemini)** | Gemini 2.5 Pro | Gemini 2.5 Flash | Gemini 2.0 Flash | Gemini 2.0 Flash |

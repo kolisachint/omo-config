@@ -47,21 +47,21 @@ const PROFILES = {
     file: 'opencodego-premium.json',
     provider: 'OpenCode Go',
     tier: 'premium',
-    desc: 'Kimi K2.5 max + GLM-5 xhigh — best hosted models',
+    desc: 'GLM-5.1 + Kimi K2.6 + MiMo V2.5 Pro — best hosted models',
     cost: '$$$$'
   },
   'opencodego-daily': {
     file: 'opencodego-daily.json',
     provider: 'OpenCode Go',
     tier: 'daily',
-    desc: 'Kimi K2.5 + MiniMax — solid daily driver',
+    desc: 'Kimi K2.5 + DeepSeek V4 Pro — solid daily driver',
     cost: '$$'
   },
   'opencodego-fast': {
     file: 'opencodego-fast.json',
     provider: 'OpenCode Go',
     tier: 'fast',
-    desc: 'MiniMax + DeepSeek Flash — fastest hosted',
+    desc: 'MiniMax M2.5 + DeepSeek V4 Flash — fastest hosted',
     cost: '$'
   },
   'opencodego-free': {
