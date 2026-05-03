@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "sisyphus": { "model": "anthropic/claude-sonnet-4-20250514", "fallback_models": [{ "model": "anthropic/claude-haiku-3-5-20241022" }] },
+    "hephaestus": { "model": "anthropic/claude-sonnet-4-20250514" },
+    "oracle": { "model": "anthropic/claude-sonnet-4-20250514", "fallback_models": [{ "model": "anthropic/claude-haiku-3-5-20241022" }] },
+    "librarian": { "model": "anthropic/claude-haiku-3-5-20241022", "fallback_models": [{ "model": "anthropic/claude-sonnet-4-20250514" }] },
+    "explore": { "model": "anthropic/claude-haiku-3-5-20241022", "fallback_models": [{ "model": "anthropic/claude-sonnet-4-20250514" }] },
+    "multimodal-looker": { "model": "anthropic/claude-sonnet-4-20250514", "fallback_models": [{ "model": "anthropic/claude-haiku-3-5-20241022" }] },
+    "prometheus": { "model": "anthropic/claude-sonnet-4-20250514", "fallback_models": [{ "model": "anthropic/claude-haiku-3-5-20241022" }] },
+    "metis": { "model": "anthropic/claude-sonnet-4-20250514", "fallback_models": [{ "model": "anthropic/claude-haiku-3-5-20241022" }] },
+    "momus": { "model": "anthropic/claude-sonnet-4-20250514", "fallback_models": [{ "model": "anthropic/claude-haiku-3-5-20241022" }] },
+    "atlas": { "model": "anthropic/claude-sonnet-4-20250514", "fallback_models": [{ "model": "anthropic/claude-haiku-3-5-20241022" }] },
+    "sisyphus-junior": { "model": "anthropic/claude-haiku-3-5-20241022", "fallback_models": [{ "model": "anthropic/claude-sonnet-4-20250514" }] }
+  },
+  "categories": {
+    "visual-engineering": { "model": "anthropic/claude-sonnet-4-20250514" },
+    "ultrabrain": { "model": "anthropic/claude-sonnet-4-20250514" },
+    "deep": { "model": "anthropic/claude-sonnet-4-20250514", "fallback_models": [{ "model": "anthropic/claude-haiku-3-5-20241022" }] },
+    "quick": { "model": "anthropic/claude-haiku-3-5-20241022" },
+    "unspecified-low": { "model": "anthropic/claude-haiku-3-5-20241022" },
+    "unspecified-high": { "model": "anthropic/claude-sonnet-4-20250514" },
+    "writing": { "model": "anthropic/claude-sonnet-4-20250514" }
+  }
+}

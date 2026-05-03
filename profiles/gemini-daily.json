@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "sisyphus": { "model": "google/gemini-2.5-flash", "fallback_models": [{ "model": "google/gemini-2.0-flash" }] },
+    "hephaestus": { "model": "google/gemini-2.5-flash" },
+    "oracle": { "model": "google/gemini-2.5-pro", "fallback_models": [{ "model": "google/gemini-2.5-flash" }] },
+    "librarian": { "model": "google/gemini-2.0-flash", "fallback_models": [{ "model": "google/gemini-2.5-flash" }] },
+    "explore": { "model": "google/gemini-2.0-flash", "fallback_models": [{ "model": "google/gemini-2.5-flash" }] },
+    "multimodal-looker": { "model": "google/gemini-2.5-flash", "fallback_models": [{ "model": "google/gemini-2.0-flash" }] },
+    "prometheus": { "model": "google/gemini-2.5-flash", "fallback_models": [{ "model": "google/gemini-2.0-flash" }] },
+    "metis": { "model": "google/gemini-2.5-flash", "fallback_models": [{ "model": "google/gemini-2.0-flash" }] },
+    "momus": { "model": "google/gemini-2.5-pro", "fallback_models": [{ "model": "google/gemini-2.5-flash" }] },
+    "atlas": { "model": "google/gemini-2.5-flash", "fallback_models": [{ "model": "google/gemini-2.0-flash" }] },
+    "sisyphus-junior": { "model": "google/gemini-2.0-flash", "fallback_models": [{ "model": "google/gemini-2.5-flash" }] }
+  },
+  "categories": {
+    "visual-engineering": { "model": "google/gemini-2.5-flash" },
+    "ultrabrain": { "model": "google/gemini-2.5-pro" },
+    "deep": { "model": "google/gemini-2.5-flash", "fallback_models": [{ "model": "google/gemini-2.5-pro" }] },
+    "quick": { "model": "google/gemini-2.0-flash" },
+    "unspecified-low": { "model": "google/gemini-2.0-flash" },
+    "unspecified-high": { "model": "google/gemini-2.5-flash" },
+    "writing": { "model": "google/gemini-2.5-flash" }
+  }
+}

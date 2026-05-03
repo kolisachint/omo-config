@@ -2,6 +2,9 @@
 /**
  * OMO - Oh My Openagent Config Manager
  * Portable profile switcher for opencode/oh-my-openagent
+ *
+ * Providers: codex, opencodego, githubcopilot, claude, gemini
+ * Tiers: premium, daily, fast, free
  */
 
 const fs = require('fs');
@@ -11,37 +14,146 @@ const os = require('os');
 const CONFIG_DIR = path.join(os.homedir(), '.config', 'opencode');
 const TARGET_FILE = path.join(CONFIG_DIR, 'oh-my-openagent.json');
 
-// Profiles map: name -> description
 const PROFILES = {
-  'omo-go': {
-    file: 'omo-go.json',
-    desc: 'Premium opencode-go (Kimi K2.5 max, GLM-5 xhigh, MiniMax highspeed)',
-    cost: '$$$$',
-    bestFor: 'Complex architecture, deep reasoning, max quality'
+  'codex-premium': {
+    file: 'codex-premium.json',
+    provider: 'OpenAI',
+    tier: 'premium',
+    desc: 'GPT-5.4 high/xhigh — max quality, max cost',
+    cost: '$$$$'
   },
-  'omo-codex': {
-    file: 'omo-codex.json',
-    desc: 'Premium OpenAI (GPT-5.4 high/xhigh, GPT-5.4-mini, GPT-5-nano)',
-    cost: '$$$$',
-    bestFor: 'When you have OpenAI credits and want consistent quality'
+  'codex-daily': {
+    file: 'codex-daily.json',
+    provider: 'OpenAI',
+    tier: 'daily',
+    desc: 'GPT-5.4-mini primary — balanced quality & cost',
+    cost: '$$'
   },
-  'omo-daily': {
-    file: 'omo-daily.json',
-    desc: 'Balanced daily driver (GPT-5.4-mini primary, Kimi fallback, nano for quick)',
-    cost: '$$',
-    bestFor: 'Everyday coding with good quality and cost balance'
+  'codex-fast': {
+    file: 'codex-fast.json',
+    provider: 'OpenAI',
+    tier: 'fast',
+    desc: 'GPT-5.3-codex-spark — speed first, lowest latency',
+    cost: '$'
   },
-  'omo-fast': {
-    file: 'omo-fast.json',
-    desc: 'Fast & coding focused (GPT-5.3-codex-spark primary, nano for quick)',
-    cost: '$',
-    bestFor: 'Rapid iterations, coding tasks, speed over depth'
+  'codex-free': {
+    file: 'codex-free.json',
+    provider: 'OpenAI',
+    tier: 'free',
+    desc: 'GPT-5-nano everywhere — zero cost fallback',
+    cost: 'FREE'
   },
-  'omo-free': {
-    file: 'omo-free.json',
-    desc: 'Free tier only (Kimi-free, Big Pickle, GPT-5-nano)',
-    cost: 'FREE',
-    bestFor: 'Zero cost, use when quota is exhausted'
+  'opencodego-premium': {
+    file: 'opencodego-premium.json',
+    provider: 'OpenCode Go',
+    tier: 'premium',
+    desc: 'Kimi K2.5 max + GLM-5 xhigh — best hosted models',
+    cost: '$$$$'
+  },
+  'opencodego-daily': {
+    file: 'opencodego-daily.json',
+    provider: 'OpenCode Go',
+    tier: 'daily',
+    desc: 'Kimi K2.5 + MiniMax — solid daily driver',
+    cost: '$$'
+  },
+  'opencodego-fast': {
+    file: 'opencodego-fast.json',
+    provider: 'OpenCode Go',
+    tier: 'fast',
+    desc: 'MiniMax + DeepSeek Flash — fastest hosted',
+    cost: '$'
+  },
+  'opencodego-free': {
+    file: 'opencodego-free.json',
+    provider: 'OpenCode Go',
+    tier: 'free',
+    desc: 'Kimi-free + Big Pickle — zero cost hosted',
+    cost: 'FREE'
+  },
+  'githubcopilot-premium': {
+    file: 'githubcopilot-premium.json',
+    provider: 'GitHub Copilot',
+    tier: 'premium',
+    desc: 'Claude Sonnet 4 + GPT-4o — best Copilot models',
+    cost: '$$$$'
+  },
+  'githubcopilot-daily': {
+    file: 'githubcopilot-daily.json',
+    provider: 'GitHub Copilot',
+    tier: 'daily',
+    desc: 'GPT-4o primary — balanced Copilot usage',
+    cost: '$$'
+  },
+  'githubcopilot-fast': {
+    file: 'githubcopilot-fast.json',
+    provider: 'GitHub Copilot',
+    tier: 'fast',
+    desc: 'o3-mini everywhere — fast Copilot iterations',
+    cost: '$'
+  },
+  'githubcopilot-free': {
+    file: 'githubcopilot-free.json',
+    provider: 'GitHub Copilot',
+    tier: 'free',
+    desc: 'Nano fallback — when Copilot quota is out',
+    cost: 'FREE'
+  },
+  'claude-premium': {
+    file: 'claude-premium.json',
+    provider: 'Anthropic',
+    tier: 'premium',
+    desc: 'Claude Opus 4 + Sonnet 4 — max reasoning',
+    cost: '$$$$'
+  },
+  'claude-daily': {
+    file: 'claude-daily.json',
+    provider: 'Anthropic',
+    tier: 'daily',
+    desc: 'Claude Sonnet 4 — solid daily driver',
+    cost: '$$'
+  },
+  'claude-fast': {
+    file: 'claude-fast.json',
+    provider: 'Anthropic',
+    tier: 'fast',
+    desc: 'Claude Haiku 3.5 — speed over depth',
+    cost: '$'
+  },
+  'claude-free': {
+    file: 'claude-free.json',
+    provider: 'Anthropic',
+    tier: 'free',
+    desc: 'Nano fallback — Claude API is not free',
+    cost: 'FREE'
+  },
+  'gemini-premium': {
+    file: 'gemini-premium.json',
+    provider: 'Google',
+    tier: 'premium',
+    desc: 'Gemini 2.5 Pro — best Google model',
+    cost: '$$$$'
+  },
+  'gemini-daily': {
+    file: 'gemini-daily.json',
+    provider: 'Google',
+    tier: 'daily',
+    desc: 'Gemini 2.5 Flash — great balance',
+    cost: '$$'
+  },
+  'gemini-fast': {
+    file: 'gemini-fast.json',
+    provider: 'Google',
+    tier: 'fast',
+    desc: 'Gemini 2.0 Flash — lowest latency',
+    cost: '$'
+  },
+  'gemini-free': {
+    file: 'gemini-free.json',
+    provider: 'Google',
+    tier: 'free',
+    desc: 'Gemini 2.0 Flash — generous free tier',
+    cost: 'FREE'
   }
 };
 
@@ -128,27 +240,36 @@ function switchProfile(name) {
 
   fs.copyFileSync(sourceFile, TARGET_FILE);
 
-  console.log(`✅ Switched to profile: ${name}`);
+  console.log(`✅ Switched to: ${name}`);
   console.log(`   ${profile.desc}`);
-  console.log(`   Cost tier: ${profile.cost} | Best for: ${profile.bestFor}`);
+  console.log(`   Provider: ${profile.provider} | Cost: ${profile.cost}`);
   if (backup) {
-    console.log(`   Backup saved: ${path.basename(backup)}`);
+    console.log(`   Backup: ${path.basename(backup)}`);
   }
 }
 
 function showList() {
   const active = getActiveProfile();
   console.log('\n📋 Available Profiles\n');
-  console.log(`${'Name'.padEnd(14)} ${'Cost'.padEnd(6)} ${'Description'.padEnd(50)} Best For`);
-  console.log('-'.repeat(100));
-  for (const [name, info] of Object.entries(PROFILES)) {
-    const marker = active === name ? '▶ ' : '  ';
-    console.log(
-      `${marker}${name.padEnd(12)} ${info.cost.padEnd(6)} ${info.desc.padEnd(50)} ${info.bestFor}`
-    );
+
+  const providers = ['OpenAI', 'OpenCode Go', 'GitHub Copilot', 'Anthropic', 'Google'];
+  const tiers = ['premium', 'daily', 'fast', 'free'];
+
+  for (const provider of providers) {
+    console.log(`${provider}:`);
+    for (const tier of tiers) {
+      const entry = Object.entries(PROFILES).find(([, info]) => info.provider === provider && info.tier === tier);
+      if (entry) {
+        const [name, info] = entry;
+        const marker = active === name ? '▶ ' : '  ';
+        console.log(`  ${marker}${name.padEnd(24)} ${info.cost.padEnd(6)} ${info.desc}`);
+      }
+    }
+    console.log('');
   }
+
   if (active) {
-    console.log(`\n🟢 Active: ${active}`);
+    console.log(`🟢 Active: ${active}`);
   }
   console.log('');
 }
@@ -159,49 +280,62 @@ function showStatus() {
     console.log('⚠️  No active profile found.');
     return;
   }
-  const info = PROFILES[active] || { desc: 'Custom config', cost: '?', bestFor: 'Unknown' };
+  const info = PROFILES[active] || { desc: 'Custom config', cost: '?', provider: 'Unknown' };
   console.log('\n📊 OMO Status\n');
   console.log(`Active profile: ${active}`);
+  console.log(`Provider:       ${info.provider}`);
   console.log(`Description:    ${info.desc}`);
   console.log(`Cost tier:      ${info.cost}`);
-  console.log(`Best for:       ${info.bestFor}`);
   console.log(`Config path:    ${TARGET_FILE}`);
   console.log('');
 }
 
-function showCompare() {
-  console.log('\n🔍 Profile Comparison\n');
+function showCompare(args) {
   const active = getActiveProfile();
+  const providers = args.length > 0 ? args : ['codex', 'opencodego', 'githubcopilot', 'claude', 'gemini'];
 
-  const names = Object.keys(PROFILES);
-  const header = 'Dimension'.padEnd(18) + names.map(n => n.padEnd(14)).join('');
-  console.log(header);
-  console.log('-'.repeat(header.length));
+  console.log('\n🔍 Profile Comparison\n');
 
-  console.log('Cost'.padEnd(18) + names.map(n => PROFILES[n].cost.padEnd(14)).join(''));
+  for (const provider of providers) {
+    const tiers = ['premium', 'daily', 'fast', 'free']
+      .map(t => Object.entries(PROFILES).find(([name, info]) => name.startsWith(provider) && info.tier === t))
+      .filter(Boolean);
 
-  const profileDir = getProfileDir();
-  const getPrimary = (name) => {
-    const file = path.join(profileDir, PROFILES[name].file);
-    try {
-      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
-      return json.agents?.sisyphus?.model?.replace('opencode-go/', '').replace('openai/', '') || '-';
-    } catch { return '-'; }
-  };
-  console.log('Orchestrator'.padEnd(18) + names.map(n => getPrimary(n).padEnd(14)).join(''));
+    if (tiers.length === 0) continue;
 
-  const getQuick = (name) => {
-    const file = path.join(profileDir, PROFILES[name].file);
-    try {
-      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
-      return json.categories?.quick?.model?.replace('opencode-go/', '').replace('openai/', '') || '-';
-    } catch { return '-'; }
-  };
-  console.log('Quick Tasks'.padEnd(18) + names.map(n => getQuick(n).padEnd(14)).join(''));
+    const providerLabel = tiers[0][1].provider;
+    console.log(`${providerLabel.toUpperCase()}`);
+    const names = tiers.map(([n]) => n);
+    const prefix = names[0].split('-')[0];
+    const header = '  Dimension'.padEnd(18) + names.map(n => n.replace(`${prefix}-`, '').padEnd(14)).join('');
+    console.log(header);
+    console.log('  ' + '-'.repeat(header.length - 2));
 
-  const marker = n => active === n ? ' ← active' : '';
-  console.log('\n' + names.map(n => `${n}${marker(n)}`).join(' | '));
-  console.log('');
+    console.log('  Cost'.padEnd(18) + names.map(n => PROFILES[n].cost.padEnd(14)).join(''));
+
+    const profileDir = getProfileDir();
+    const getPrimary = (name) => {
+      const file = path.join(profileDir, PROFILES[name].file);
+      try {
+        const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+        return json.agents?.sisyphus?.model?.replace(/.*\//, '') || '-';
+      } catch { return '-'; }
+    };
+    console.log('  Orchestrator'.padEnd(18) + names.map(n => getPrimary(n).padEnd(14)).join(''));
+
+    const getQuick = (name) => {
+      const file = path.join(profileDir, PROFILES[name].file);
+      try {
+        const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+        return json.categories?.quick?.model?.replace(/.*\//, '') || '-';
+      } catch { return '-'; }
+    };
+    console.log('  Quick'.padEnd(18) + names.map(n => getQuick(n).padEnd(14)).join(''));
+
+    const marker = n => active === n ? ' ← active' : '';
+    console.log('  ' + names.map(n => `${n}${marker(n)}`).join(' | '));
+    console.log('');
+  }
 }
 
 function showHelp() {
@@ -209,24 +343,26 @@ function showHelp() {
 OMO - Oh My Openagent Config Manager
 
 Usage:
-  omo <profile>           Switch to a profile
-  omo list                List all profiles
-  omo status              Show current profile
-  omo compare             Compare all profiles
-  omo setup               Full setup
-  omo help                Show this help
+  omo <profile>              Switch to a profile
+  omo list                   List all profiles
+  omo status                 Show current profile
+  omo compare [providers]    Compare profiles (e.g. omo compare codex claude)
+  omo setup                  Full setup
+  omo help                   Show this help
 
-Profiles:
-  omo-go        Premium opencode-go models (max quality)
-  omo-codex     Premium OpenAI models (consistent quality)
-  omo-daily     Balanced daily driver (recommended)
-  omo-fast      Fast coding mode (speed first)
-  omo-free      Free tier only (zero cost)
+Providers & Tiers:
+  codex          premium / daily / fast / free
+  opencodego     premium / daily / fast / free
+  githubcopilot  premium / daily / fast / free
+  claude         premium / daily / fast / free
+  gemini         premium / daily / fast / free
 
 Examples:
-  omo omo-daily           Switch to daily driver
-  omo omo-fast            Switch to fast mode
-  omo status              Check current profile
+  omo codex-daily            Switch to OpenAI daily driver
+  omo opencodego-fast        Switch to OpenCode Go fast mode
+  omo gemini-premium         Switch to Gemini max quality
+  omo compare                Compare all providers
+  omo compare codex claude   Compare specific providers
 `);
 }
 
@@ -239,8 +375,8 @@ function runSetup() {
 
   const active = getActiveProfile();
   if (!active) {
-    console.log('No active config found. Installing omo-daily as default...');
-    switchProfile('omo-daily');
+    console.log('No active config found. Installing codex-daily as default...');
+    switchProfile('codex-daily');
   } else {
     console.log(`Active profile: ${active}`);
   }
@@ -261,7 +397,7 @@ if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') {
 } else if (cmd === 'status') {
   showStatus();
 } else if (cmd === 'compare') {
-  showCompare();
+  showCompare(args.slice(1));
 } else if (cmd === 'setup') {
   runSetup();
 } else if (PROFILES[cmd]) {
