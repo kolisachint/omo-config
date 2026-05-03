@@ -101,6 +101,11 @@ npx omo-config codex-daily
 - **OpenCode Go** free tier uses `opencode/kimi-k2.5-free` and `opencode/big-pickle`.
 - Adjust model names in JSON files if your OpenCode setup uses different identifiers.
 
+## Changelog
+
+### 2026-05-03
+- **Fix:** `scripts/setup.js` default profile changed from `omo-daily` (non-existent) to `codex-daily` to match available provider-specific profiles.
+
 ## License
 
 MIT

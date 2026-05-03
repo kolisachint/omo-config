@@ -36,7 +36,7 @@ function backupIfExists(file) {
   return null;
 }
 
-function installProfile(name = 'omo-daily') {
+function installProfile(name = 'codex-daily') {
   const profileFile = path.join(PROFILES_DIR, `${name}.json`);
   if (!fs.existsSync(profileFile)) {
     console.error(`❌ Profile not found: ${profileFile}`);
@@ -92,7 +92,7 @@ function main() {
   ensureDir(CONFIG_DIR);
 
   const args = process.argv.slice(2);
-  const profile = args[0] || 'omo-daily';
+  const profile = args[0] || 'codex-daily';
 
   installProfile(profile);
   installBin();
