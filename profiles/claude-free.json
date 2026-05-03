@@ -1,25 +1,25 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
-    "sisyphus": { "model": "openai/gpt-5-nano", "fallback_models": [{ "model": "opencode/big-pickle" }] },
-    "hephaestus": { "model": "openai/gpt-5-nano" },
-    "oracle": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "openai/gpt-5-nano" }] },
-    "librarian": { "model": "openai/gpt-5-nano" },
-    "explore": { "model": "openai/gpt-5-nano" },
-    "multimodal-looker": { "model": "openai/gpt-5-nano", "fallback_models": [{ "model": "openai/gpt-5.4-mini" }] },
-    "prometheus": { "model": "openai/gpt-5-nano", "fallback_models": [{ "model": "openai/gpt-5.4-mini" }] },
-    "metis": { "model": "openai/gpt-5-nano", "fallback_models": [{ "model": "openai/gpt-5.4-mini" }] },
-    "momus": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "openai/gpt-5-nano" }] },
-    "atlas": { "model": "openai/gpt-5-nano", "fallback_models": [{ "model": "openai/gpt-5.4-mini" }] },
-    "sisyphus-junior": { "model": "openai/gpt-5-nano" }
+    "sisyphus": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "hephaestus": { "model": "openai/gpt-5.4-mini" },
+    "oracle": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "librarian": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "explore": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "multimodal-looker": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "prometheus": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "metis": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "momus": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "atlas": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "sisyphus-junior": { "model": "opencode/big-pickle", "fallback_models": [{ "model": "openai/gpt-5.4-mini" }] }
   },
   "categories": {
-    "visual-engineering": { "model": "openai/gpt-5-nano", "fallback_models": [{ "model": "openai/gpt-5.4-mini" }] },
-    "ultrabrain": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "openai/gpt-5-nano" }] },
-    "deep": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "openai/gpt-5-nano" }] },
-    "quick": { "model": "openai/gpt-5-nano" },
-    "unspecified-low": { "model": "openai/gpt-5-nano" },
+    "visual-engineering": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "ultrabrain": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "deep": { "model": "openai/gpt-5.4-mini", "fallback_models": [{ "model": "opencode/big-pickle" }] },
+    "quick": { "model": "opencode/big-pickle" },
+    "unspecified-low": { "model": "opencode/big-pickle" },
     "unspecified-high": { "model": "openai/gpt-5.4-mini" },
-    "writing": { "model": "openai/gpt-5-nano" }
+    "writing": { "model": "openai/gpt-5.4-mini" }
   }
 }
