@@ -10,7 +10,6 @@ const os = require('os');
 
 const CONFIG_DIR = path.join(os.homedir(), '.config', 'opencode');
 const TARGET_FILE = path.join(CONFIG_DIR, 'oh-my-openagent.json');
-const COMMANDS_DIR = path.join(CONFIG_DIR, 'commands');
 
 // Profiles map: name -> description
 const PROFILES = {
@@ -43,24 +42,10 @@ const PROFILES = {
     desc: 'Free tier only (Kimi-free, Big Pickle, GPT-5-nano)',
     cost: 'FREE',
     bestFor: 'Zero cost, use when quota is exhausted'
-  },
-  'frugal': {
-    file: 'frugal.json',
-    desc: 'Legacy frugal (avoids GLM-5, ~60-70% savings)',
-    cost: '$$',
-    bestFor: 'Balanced savings without free-tier limits'
-  },
-  'dirt-cheap': {
-    file: 'dirt-cheap.json',
-    desc: 'Legacy dirt-cheap (DeepSeek Flash + Qwen 3.5 Plus)',
-    cost: '$',
-    bestFor: 'Maximum savings, acceptable quality drop'
   }
 };
 
 function getProfileDir() {
-  // If running from npm package, profiles are in ../profiles
-  // If running from git repo, same
   const tryPaths = [
     path.join(__dirname, '..', 'profiles'),
     path.join(__dirname, '..', '..', 'profiles'),
@@ -72,24 +57,9 @@ function getProfileDir() {
   return null;
 }
 
-function getCommandsDir() {
-  const tryPaths = [
-    path.join(__dirname, '..', 'commands'),
-    path.join(__dirname, '..', '..', 'commands'),
-    path.join(process.cwd(), 'commands')
-  ];
-  for (const p of tryPaths) {
-    if (fs.existsSync(p)) return p;
-  }
-  return null;
-}
-
 function ensureConfigDir() {
   if (!fs.existsSync(CONFIG_DIR)) {
     fs.mkdirSync(CONFIG_DIR, { recursive: true });
-  }
-  if (!fs.existsSync(COMMANDS_DIR)) {
-    fs.mkdirSync(COMMANDS_DIR, { recursive: true });
   }
 }
 
@@ -108,12 +78,10 @@ function getActiveProfile() {
     if (stat.isSymbolicLink()) {
       const link = fs.readlinkSync(TARGET_FILE);
       const base = path.basename(link, '.json');
-      // Handle naming like oh-my-openagent.omo-daily.json -> omo-daily
       const match = base.match(/oh-my-openagent\.(.*)/);
       if (match) return match[1];
       return base;
     }
-    // Check if file content matches any known profile
     const content = fs.readFileSync(TARGET_FILE, 'utf8');
     const profileDir = getProfileDir();
     if (profileDir) {
@@ -154,12 +122,10 @@ function switchProfile(name) {
   ensureConfigDir();
   const backup = backupCurrent();
 
-  // Remove existing file or symlink
   if (fs.existsSync(TARGET_FILE)) {
     fs.unlinkSync(TARGET_FILE);
   }
 
-  // Copy file (more portable than symlink on all platforms)
   fs.copyFileSync(sourceFile, TARGET_FILE);
 
   console.log(`✅ Switched to profile: ${name}`);
@@ -168,24 +134,6 @@ function switchProfile(name) {
   if (backup) {
     console.log(`   Backup saved: ${path.basename(backup)}`);
   }
-}
-
-function installCommands() {
-  const srcDir = getCommandsDir();
-  if (!srcDir) {
-    console.error('❌ Could not find commands directory.');
-    process.exit(1);
-  }
-  ensureConfigDir();
-  const files = fs.readdirSync(srcDir).filter(f => f.endsWith('.md'));
-  let installed = 0;
-  for (const file of files) {
-    const src = path.join(srcDir, file);
-    const dest = path.join(COMMANDS_DIR, file);
-    fs.copyFileSync(src, dest);
-    installed++;
-  }
-  console.log(`✅ Installed ${installed} custom commands to ${COMMANDS_DIR}`);
 }
 
 function showList() {
@@ -225,16 +173,13 @@ function showCompare() {
   console.log('\n🔍 Profile Comparison\n');
   const active = getActiveProfile();
 
-  // Print header
   const names = Object.keys(PROFILES);
   const header = 'Dimension'.padEnd(18) + names.map(n => n.padEnd(14)).join('');
   console.log(header);
   console.log('-'.repeat(header.length));
 
-  // Cost
   console.log('Cost'.padEnd(18) + names.map(n => PROFILES[n].cost.padEnd(14)).join(''));
 
-  // Primary models (parse from JSON)
   const profileDir = getProfileDir();
   const getPrimary = (name) => {
     const file = path.join(profileDir, PROFILES[name].file);
@@ -245,7 +190,6 @@ function showCompare() {
   };
   console.log('Orchestrator'.padEnd(18) + names.map(n => getPrimary(n).padEnd(14)).join(''));
 
-  // Quick category
   const getQuick = (name) => {
     const file = path.join(profileDir, PROFILES[name].file);
     try {
@@ -269,8 +213,7 @@ Usage:
   omo list                List all profiles
   omo status              Show current profile
   omo compare             Compare all profiles
-  omo install-commands    Copy custom commands to ~/.config/opencode/commands
-  omo setup               Full setup (config dir + commands)
+  omo setup               Full setup
   omo help                Show this help
 
 Profiles:
@@ -279,8 +222,6 @@ Profiles:
   omo-daily     Balanced daily driver (recommended)
   omo-fast      Fast coding mode (speed first)
   omo-free      Free tier only (zero cost)
-  frugal        Legacy: avoids GLM-5 (~60% savings)
-  dirt-cheap    Legacy: cheapest models (~90% savings)
 
 Examples:
   omo omo-daily           Switch to daily driver
@@ -304,7 +245,6 @@ function runSetup() {
     console.log(`Active profile: ${active}`);
   }
 
-  installCommands();
   console.log('\n✅ Setup complete!');
   console.log('   Run "omo list" to see all profiles');
   console.log('   Run "omo <profile>" to switch');
@@ -322,8 +262,6 @@ if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') {
   showStatus();
 } else if (cmd === 'compare') {
   showCompare();
-} else if (cmd === 'install-commands') {
-  installCommands();
 } else if (cmd === 'setup') {
   runSetup();
 } else if (PROFILES[cmd]) {

@@ -18,8 +18,6 @@ A portable, reusable collection of [oh-my-openagent](https://github.com/code-yeo
 | `omo-daily` | $$ | GPT-5.4-mini primary, Kimi fallback, nano quick | Everyday coding (recommended) |
 | `omo-fast` | $ | GPT-5.3-codex-spark, GPT-5-nano | Rapid iterations, speed first |
 | `omo-free` | FREE | Kimi-free, Big Pickle, GPT-5-nano | Zero cost, quota exhausted |
-| `frugal` | $$ | Avoids GLM-5, ~60-70% savings | Legacy balanced savings |
-| `dirt-cheap` | $ | DeepSeek Flash + Qwen 3.5 Plus | Legacy maximum savings |
 
 ## Quick Start
 
@@ -33,7 +31,6 @@ npm run setup
 
 This installs:
 - Default `omo-daily` profile to `~/.config/opencode/oh-my-openagent.json`
-- Custom commands to `~/.config/opencode/commands/`
 - The `omo` CLI binary to your PATH
 
 ### Option 2: One-liner Install
@@ -46,7 +43,6 @@ curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/omo-config/main/scrip
 
 ```bash
 cp profiles/omo-daily.json ~/.config/opencode/oh-my-openagent.json
-cp commands/*.md ~/.config/opencode/commands/
 ```
 
 ## Usage
@@ -67,23 +63,9 @@ omo status
 # Compare all profiles side-by-side
 omo compare
 
-# Install/update custom commands
-omo install-commands
-
-# Full setup (config + commands + bin)
+# Full setup
 omo setup
 ```
-
-## Custom Commands
-
-These are installed to `~/.config/opencode/commands/`:
-
-| Command | Agent | Purpose |
-|---------|-------|---------|
-| `push-main` | build | Stage, commit, push to main with atomic commits |
-| `review` | momus | Comprehensive code review checklist |
-| `simplify` | build | Refactor and simplify codebase |
-| `test` | build | Run tests and fix failures automatically |
 
 ## NPM (optional)
 
@@ -107,14 +89,7 @@ npx @sachinkoli/omo-config omo-daily
 │   ├── omo-codex.json       # Premium OpenAI
 │   ├── omo-daily.json       # Balanced daily driver
 │   ├── omo-fast.json        # Fast coding mode
-│   ├── omo-free.json        # Free tier only
-│   ├── frugal.json          # Legacy frugal mode
-│   └── dirt-cheap.json      # Legacy dirt-cheap mode
-├── commands/
-│   ├── push-main.md
-│   ├── review.md
-│   ├── simplify.md
-│   └── test.md
+│   └── omo-free.json        # Free tier only
 ├── scripts/setup.js         # One-command installer
 ├── package.json
 └── README.md

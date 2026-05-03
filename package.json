@@ -22,7 +22,6 @@
   "files": [
     "bin/",
     "profiles/",
-    "commands/",
     "scripts/",
     "README.md"
   ]

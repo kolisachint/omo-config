@@ -10,11 +10,9 @@ const os = require('os');
 
 const CONFIG_DIR = path.join(os.homedir(), '.config', 'opencode');
 const TARGET_FILE = path.join(CONFIG_DIR, 'oh-my-openagent.json');
-const COMMANDS_TARGET = path.join(CONFIG_DIR, 'commands');
 
 const REPO_ROOT = path.join(__dirname, '..');
 const PROFILES_DIR = path.join(REPO_ROOT, 'profiles');
-const COMMANDS_DIR = path.join(REPO_ROOT, 'commands');
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) {
@@ -49,23 +47,7 @@ function installProfile(name = 'omo-daily') {
   console.log(`✅ Installed profile: ${name}`);
 }
 
-function installCommands() {
-  ensureDir(COMMANDS_TARGET);
-  if (!fs.existsSync(COMMANDS_DIR)) {
-    console.log('⚠️  No commands directory found in repo');
-    return;
-  }
-  const files = fs.readdirSync(COMMANDS_DIR).filter(f => f.endsWith('.md'));
-  let count = 0;
-  for (const file of files) {
-    copyFile(path.join(COMMANDS_DIR, file), path.join(COMMANDS_TARGET, file));
-    count++;
-  }
-  console.log(`✅ Installed ${count} custom commands`);
-}
-
 function installBin() {
-  // Try to symlink the omo binary to a PATH location
   const binSrc = path.join(REPO_ROOT, 'bin', 'omo');
   if (!fs.existsSync(binSrc)) {
     console.log('⚠️  omo binary not found');
@@ -78,7 +60,6 @@ function installBin() {
     '/usr/local/bin'
   ];
 
-  // Check if binSrc is already in PATH
   const pathEnv = process.env.PATH || '';
   if (pathEnv.split(path.delimiter).some(p => binSrc.startsWith(p) || p === path.dirname(binSrc))) {
     console.log(`✅ omo is already in PATH via: ${path.dirname(binSrc)}`);
@@ -109,13 +90,11 @@ function main() {
   console.log('🔧 OMO Setup\n');
 
   ensureDir(CONFIG_DIR);
-  ensureDir(COMMANDS_TARGET);
 
   const args = process.argv.slice(2);
   const profile = args[0] || 'omo-daily';
 
   installProfile(profile);
-  installCommands();
   installBin();
 
   console.log('\n🎉 Setup complete!');
