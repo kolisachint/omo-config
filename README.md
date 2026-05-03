@@ -26,7 +26,13 @@ Pick your provider, pick your tier:
 ### Clone & Setup
 
 ```bash
+# Fresh install
 git clone https://github.com/kolisachint/omo-config.git ~/.config/omo-config
+
+# Or update existing install
+cd ~/.config/omo-config && git pull origin main
+
+# Run setup (defaults to codex-daily)
 cd ~/.config/omo-config
 npm run setup
 ```
