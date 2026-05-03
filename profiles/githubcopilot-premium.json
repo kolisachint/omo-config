@@ -1,25 +1,25 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
-    "sisyphus": { "model": "githubcopilot/claude-sonnet-4", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "hephaestus": { "model": "githubcopilot/gpt-4o" },
-    "oracle": { "model": "githubcopilot/claude-sonnet-4", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "librarian": { "model": "githubcopilot/gpt-4o", "fallback_models": [{ "model": "githubcopilot/o3-mini" }] },
-    "explore": { "model": "githubcopilot/gpt-4o", "fallback_models": [{ "model": "githubcopilot/o3-mini" }] },
-    "multimodal-looker": { "model": "githubcopilot/gpt-4o", "fallback_models": [{ "model": "githubcopilot/claude-sonnet-4" }] },
-    "prometheus": { "model": "githubcopilot/claude-sonnet-4", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "metis": { "model": "githubcopilot/claude-sonnet-4", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "momus": { "model": "githubcopilot/claude-sonnet-4", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "atlas": { "model": "githubcopilot/gpt-4o", "fallback_models": [{ "model": "githubcopilot/claude-sonnet-4" }] },
-    "sisyphus-junior": { "model": "githubcopilot/gpt-4o", "fallback_models": [{ "model": "githubcopilot/o3-mini" }] }
+    "sisyphus": { "model": "githubcopilot/gpt-5.5", "fallback_models": [{ "model": "githubcopilot/gpt-5.4" }] },
+    "hephaestus": { "model": "githubcopilot/gpt-5.5" },
+    "oracle": { "model": "githubcopilot/claude-opus-4.7", "fallback_models": [{ "model": "githubcopilot/claude-opus-4.6" }] },
+    "librarian": { "model": "githubcopilot/gpt-5.4", "fallback_models": [{ "model": "githubcopilot/gpt-5.4-mini" }] },
+    "explore": { "model": "githubcopilot/gpt-5.4", "fallback_models": [{ "model": "githubcopilot/gpt-5.4-mini" }] },
+    "multimodal-looker": { "model": "githubcopilot/gpt-5.5", "fallback_models": [{ "model": "githubcopilot/gpt-5.4" }] },
+    "prometheus": { "model": "githubcopilot/gpt-5.5", "fallback_models": [{ "model": "githubcopilot/gpt-5.4" }] },
+    "metis": { "model": "githubcopilot/gpt-5.5", "fallback_models": [{ "model": "githubcopilot/gpt-5.4" }] },
+    "momus": { "model": "githubcopilot/claude-opus-4.7", "fallback_models": [{ "model": "githubcopilot/gpt-5.5" }] },
+    "atlas": { "model": "githubcopilot/gpt-5.5", "fallback_models": [{ "model": "githubcopilot/gpt-5.4" }] },
+    "sisyphus-junior": { "model": "githubcopilot/gpt-5.4", "fallback_models": [{ "model": "githubcopilot/gpt-5.4-mini" }] }
   },
   "categories": {
-    "visual-engineering": { "model": "githubcopilot/gpt-4o", "fallback_models": [{ "model": "githubcopilot/claude-sonnet-4" }] },
-    "ultrabrain": { "model": "githubcopilot/claude-sonnet-4" },
-    "deep": { "model": "githubcopilot/claude-sonnet-4", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "quick": { "model": "githubcopilot/o3-mini", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "unspecified-low": { "model": "githubcopilot/o3-mini" },
-    "unspecified-high": { "model": "githubcopilot/gpt-4o" },
-    "writing": { "model": "githubcopilot/gpt-4o" }
+    "visual-engineering": { "model": "githubcopilot/gpt-5.5", "fallback_models": [{ "model": "githubcopilot/gpt-5.4" }] },
+    "ultrabrain": { "model": "githubcopilot/gpt-5.5" },
+    "deep": { "model": "githubcopilot/gpt-5.5", "fallback_models": [{ "model": "githubcopilot/gpt-5.4" }] },
+    "quick": { "model": "githubcopilot/gpt-5.4", "fallback_models": [{ "model": "githubcopilot/gpt-5.4-mini" }] },
+    "unspecified-low": { "model": "githubcopilot/gpt-5.4-mini" },
+    "unspecified-high": { "model": "githubcopilot/gpt-5.5" },
+    "writing": { "model": "githubcopilot/gpt-5.5" }
   }
 }

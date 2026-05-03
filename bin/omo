@@ -75,28 +75,28 @@ const PROFILES = {
     file: 'githubcopilot-premium.json',
     provider: 'GitHub Copilot',
     tier: 'premium',
-    desc: 'Claude Sonnet 4 + GPT-4o — best Copilot models',
+    desc: 'GPT-5.5 + Claude Opus 4.7 — best Copilot Enterprise models',
     cost: '$$$$'
   },
   'githubcopilot-daily': {
     file: 'githubcopilot-daily.json',
     provider: 'GitHub Copilot',
     tier: 'daily',
-    desc: 'GPT-4o primary — balanced Copilot usage',
+    desc: 'GPT-5.4 + Claude Sonnet 4.6 — balanced Enterprise usage',
     cost: '$$'
   },
   'githubcopilot-fast': {
     file: 'githubcopilot-fast.json',
     provider: 'GitHub Copilot',
     tier: 'fast',
-    desc: 'o3-mini everywhere — fast Copilot iterations',
+    desc: 'GPT-5.4-mini + GPT-5.2 — fast low-cost iterations',
     cost: '$'
   },
   'githubcopilot-free': {
     file: 'githubcopilot-free.json',
     provider: 'GitHub Copilot',
     tier: 'free',
-    desc: 'Nano fallback — when Copilot quota is out',
+    desc: 'GPT-5 mini + GPT-4o — 0x multiplier on Enterprise',
     cost: 'FREE'
   },
   'claude-premium': {

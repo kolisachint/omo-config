@@ -1,25 +1,25 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
-    "sisyphus": { "model": "githubcopilot/o3-mini", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "hephaestus": { "model": "githubcopilot/o3-mini" },
-    "oracle": { "model": "githubcopilot/gpt-4o", "fallback_models": [{ "model": "githubcopilot/o3-mini" }] },
-    "librarian": { "model": "githubcopilot/o3-mini" },
-    "explore": { "model": "githubcopilot/o3-mini" },
-    "multimodal-looker": { "model": "githubcopilot/gpt-4o", "fallback_models": [{ "model": "githubcopilot/o3-mini" }] },
-    "prometheus": { "model": "githubcopilot/o3-mini", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "metis": { "model": "githubcopilot/o3-mini", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "momus": { "model": "githubcopilot/gpt-4o", "fallback_models": [{ "model": "githubcopilot/o3-mini" }] },
-    "atlas": { "model": "githubcopilot/o3-mini", "fallback_models": [{ "model": "githubcopilot/gpt-4o" }] },
-    "sisyphus-junior": { "model": "githubcopilot/o3-mini" }
+    "sisyphus": { "model": "githubcopilot/gpt-5.4-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.2" }] },
+    "hephaestus": { "model": "githubcopilot/gpt-5.4-mini" },
+    "oracle": { "model": "githubcopilot/gpt-5.2", "fallback_models": [{ "model": "githubcopilot/gpt-5.4-mini" }] },
+    "librarian": { "model": "githubcopilot/gpt-5-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.4-mini" }] },
+    "explore": { "model": "githubcopilot/gpt-5-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.4-mini" }] },
+    "multimodal-looker": { "model": "githubcopilot/gpt-5.4-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.2" }] },
+    "prometheus": { "model": "githubcopilot/gpt-5.4-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.2" }] },
+    "metis": { "model": "githubcopilot/gpt-5.4-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.2" }] },
+    "momus": { "model": "githubcopilot/gpt-5.2", "fallback_models": [{ "model": "githubcopilot/gpt-5.4-mini" }] },
+    "atlas": { "model": "githubcopilot/gpt-5.4-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.2" }] },
+    "sisyphus-junior": { "model": "githubcopilot/gpt-5-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.4-mini" }] }
   },
   "categories": {
-    "visual-engineering": { "model": "githubcopilot/gpt-4o" },
-    "ultrabrain": { "model": "githubcopilot/gpt-4o" },
-    "deep": { "model": "githubcopilot/o3-mini" },
-    "quick": { "model": "githubcopilot/o3-mini" },
-    "unspecified-low": { "model": "githubcopilot/o3-mini" },
-    "unspecified-high": { "model": "githubcopilot/o3-mini" },
-    "writing": { "model": "githubcopilot/o3-mini" }
+    "visual-engineering": { "model": "githubcopilot/gpt-5.4-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.2" }] },
+    "ultrabrain": { "model": "githubcopilot/gpt-5.2" },
+    "deep": { "model": "githubcopilot/gpt-5.4-mini", "fallback_models": [{ "model": "githubcopilot/gpt-5.2" }] },
+    "quick": { "model": "githubcopilot/gpt-5-mini" },
+    "unspecified-low": { "model": "githubcopilot/gpt-5-mini" },
+    "unspecified-high": { "model": "githubcopilot/gpt-5.4-mini" },
+    "writing": { "model": "githubcopilot/gpt-5-mini" }
   }
 }

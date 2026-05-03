@@ -17,7 +17,7 @@ Pick your provider, pick your tier:
 |----------|---------|-------|------|------|
 | **OpenAI (codex)** | GPT-5.5 + GPT-5.4 | GPT-5.4 | GPT-5.4-mini + Spark | GPT-5.4-mini + Spark |
 | **OpenCode Go** | GLM-5.1 + Kimi K2.6 | Kimi K2.5 + DeepSeek V4 Pro | MiniMax M2.5 + DeepSeek V4 Flash | Kimi-free + Big Pickle |
-| **GitHub Copilot** | Claude Sonnet 4 + GPT-4o | GPT-4o | o3-mini | Nano fallback |
+| **GitHub Copilot** | GPT-5.5 + Claude Opus 4.7 | GPT-5.4 + Sonnet 4.6 | GPT-5.4-mini + GPT-5.2 | GPT-5 mini + GPT-4o |
 | **Anthropic (claude)** | Claude Opus 4 + Sonnet 4 | Claude Sonnet 4 | Claude Haiku 3.5 | Nano fallback |
 | **Google (gemini)** | Gemini 2.5 Pro | Gemini 2.5 Flash | Gemini 2.0 Flash | Gemini 2.0 Flash |
 
@@ -96,7 +96,7 @@ npx omo-config codex-daily
 ## Model Notes
 
 - **OpenAI (codex)** `-free` is not actually free — Codex has no zero-cost tier. It uses the cheapest Codex models (`gpt-5.4-mini` / `gpt-5.3-codex-spark`).
-- **GitHub Copilot** models require an active Copilot subscription. The `-free` profiles fall back to OpenAI nano/Big Pickle when Copilot quota is exhausted.
+- **GitHub Copilot** requires an active subscription. On Enterprise, `gpt-5-mini` and `gpt-4o` have a 0× multiplier (effectively free). The `-free` profile uses these.
 - **Claude** API is not free. The `-free` profiles use OpenAI nano/Big Pickle as fallback.
 - **Gemini** has a generous free tier, so `gemini-free` and `gemini-fast` can be nearly identical.
 - **OpenCode Go** free tier uses `opencode/kimi-k2.5-free` and `opencode/big-pickle`.
@@ -106,6 +106,7 @@ npx omo-config codex-daily
 
 - **OpenAI Codex:** [developers.openai.com/codex/models](https://developers.openai.com/codex/models)
 - **OpenCode Go:** [opencode.ai/docs/go](https://opencode.ai/docs/go)
+- **GitHub Copilot Enterprise:** [docs.github.com/copilot/reference/ai-models/supported-models](https://docs.github.com/en/enterprise-cloud@latest/copilot/reference/ai-models/supported-models)
 
 ## Changelog
 
