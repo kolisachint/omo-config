@@ -102,6 +102,11 @@ npx omo-config codex-daily
 - **OpenCode Go** free tier uses `opencode/kimi-k2.5-free` and `opencode/big-pickle`.
 - Adjust model names in JSON files if your OpenCode setup uses different identifiers.
 
+## Model References
+
+- **OpenAI Codex:** [developers.openai.com/codex/models](https://developers.openai.com/codex/models)
+- **OpenCode Go:** [opencode.ai/docs/go](https://opencode.ai/docs/go)
+
 ## Changelog
 
 ### 2026-05-03
