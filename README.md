@@ -21,9 +21,56 @@ Pick your provider, pick your tier:
 | **Anthropic (claude)** | Claude Opus 4 + Sonnet 4 | Claude Sonnet 4 | Claude Haiku 3.5 | Nano fallback |
 | **Google (gemini)** | Gemini 2.5 Pro | Gemini 2.5 Flash | Gemini 2.0 Flash | Gemini 2.0 Flash |
 
-## Quick Start
+## Installation
 
-### Clone & Setup
+Choose one of the three methods below. All methods work on **macOS** and **Windows**.
+
+> **Windows users:** If you have [WSL](https://learn.microsoft.com/windows/wsl/) or Git Bash, use the **macOS / Linux** instructions. Otherwise, use the **Windows (PowerShell)** instructions below.
+
+---
+
+### 1. One-Command Install (Recommended)
+
+The fastest way. No git or npm required.
+
+<details open>
+<summary><b>macOS / Linux / WSL / Git Bash</b></summary>
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kolisachint/omo-config/main/install.sh | bash
+```
+
+With a custom default profile:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kolisachint/omo-config/main/install.sh | bash -s -- opencodego-daily
+```
+
+</details>
+
+<details>
+<summary><b>Windows (PowerShell)</b></summary>
+
+```powershell
+irm https://raw.githubusercontent.com/kolisachint/omo-config/main/install.ps1 | iex
+```
+
+With a custom default profile:
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/kolisachint/omo-config/main/install.ps1))) opencodego-daily
+```
+
+</details>
+
+---
+
+### 2. Git Repo Install
+
+Clone the repo and run the installer. Great if you want to stay up to date with `git pull`.
+
+<details open>
+<summary><b>macOS / Linux / WSL / Git Bash</b></summary>
 
 ```bash
 # Fresh install
@@ -32,12 +79,95 @@ git clone https://github.com/kolisachint/omo-config.git ~/.config/omo-config
 # Or update existing install
 cd ~/.config/omo-config && git pull origin main
 
-# Run setup (defaults to codex-daily)
+# Run installer (defaults to codex-daily)
 cd ~/.config/omo-config
-npm run setup
+./install.sh
+
+# Or pick a different default profile
+./install.sh gemini-daily
 ```
 
+</details>
+
+<details>
+<summary><b>Windows (PowerShell)</b></summary>
+
+```powershell
+# Fresh install
+git clone https://github.com/kolisachint/omo-config.git $env:USERPROFILE\.config\omo-config
+
+# Or update existing install
+cd $env:USERPROFILE\.config\omo-config
+git pull origin main
+
+# Run installer (defaults to codex-daily)
+cd $env:USERPROFILE\.config\omo-config
+.\install.ps1
+
+# Or pick a different default profile
+.\install.ps1 gemini-daily
+```
+
+</details>
+
+---
+
+### 3. Manual Install
+
+If you prefer full control over every step.
+
+<details open>
+<summary><b>macOS / Linux / WSL / Git Bash</b></summary>
+
+```bash
+# 1. Create config directory
+mkdir -p ~/.config/opencode
+
+# 2. Copy your chosen profile
+cp profiles/codex-daily.json ~/.config/opencode/oh-my-openagent.json
+
+# 3. (Optional) Add the omo CLI to your PATH
+ln -sf "$(pwd)/bin/omo" ~/.local/bin/omo
+
+# 4. Verify
+omo status
+```
+
+</details>
+
+<details>
+<summary><b>Windows (PowerShell)</b></summary>
+
+```powershell
+# 1. Create config directory
+New-Item -ItemType Directory -Path "$env:USERPROFILE\.config\opencode" -Force
+
+# 2. Copy your chosen profile
+Copy-Item profiles\codex-daily.json "$env:USERPROFILE\.config\opencode\oh-my-openagent.json"
+
+# 3. (Optional) Add the omo CLI to your PATH
+$repoPath = (Get-Location).Path
+$binDir = "$env:USERPROFILE\bin"
+New-Item -ItemType Directory -Path $binDir -Force
+
+# CMD wrapper
+Set-Content -Path "$binDir\omo.cmd" -Value "@node `"$repoPath\bin\omo`" %*"
+
+# PowerShell wrapper
+Set-Content -Path "$binDir\omo.ps1" -Value "node `'$repoPath\bin\omo`' `$args"
+
+# Add to PATH
+[Environment]::SetEnvironmentVariable("Path", "$env:Path;$binDir", "User")
+
+# 4. Verify (restart terminal first if PATH was just updated)
+node bin\omo status
+```
+
+</details>
+
 ### Switch Profiles
+
+> On Windows, use `omo` directly in PowerShell or CMD (if in PATH), or run `node bin\omo` from the repo root.
 
 ```bash
 # List all profiles grouped by provider
@@ -94,7 +224,9 @@ npx omo-config codex-daily
 │   ├── gemini-daily.json
 │   ├── gemini-fast.json
 │   └── gemini-free.json
-├── scripts/setup.js             # One-command installer
+├── install.sh                   # POSIX shell installer (macOS / Linux / WSL / Git Bash)
+├── install.ps1                  # PowerShell installer (Windows)
+├── scripts/setup.js             # Node.js setup script (npm run setup)
 ├── package.json
 └── README.md
 ```
