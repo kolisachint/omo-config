@@ -1,0 +1,29 @@
+{
+  "name": "@sachinkoli/omo-config",
+  "version": "1.0.0",
+  "description": "Portable oh-my-openagent profiles with premium, daily, and fast combinations",
+  "main": "index.js",
+  "bin": {
+    "omo": "./bin/omo"
+  },
+  "scripts": {
+    "setup": "node scripts/setup.js",
+    "install-global": "npm link"
+  },
+  "keywords": [
+    "opencode",
+    "oh-my-openagent",
+    "ai",
+    "agent-config",
+    "omo"
+  ],
+  "author": "sachinkoli",
+  "license": "MIT",
+  "files": [
+    "bin/",
+    "profiles/",
+    "commands/",
+    "scripts/",
+    "README.md"
+  ]
+}

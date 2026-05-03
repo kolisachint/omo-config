@@ -1,0 +1,335 @@
+#!/usr/bin/env node
+/**
+ * OMO - Oh My Openagent Config Manager
+ * Portable profile switcher for opencode/oh-my-openagent
+ */
+
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+
+const CONFIG_DIR = path.join(os.homedir(), '.config', 'opencode');
+const TARGET_FILE = path.join(CONFIG_DIR, 'oh-my-openagent.json');
+const COMMANDS_DIR = path.join(CONFIG_DIR, 'commands');
+
+// Profiles map: name -> description
+const PROFILES = {
+  'omo-go': {
+    file: 'omo-go.json',
+    desc: 'Premium opencode-go (Kimi K2.5 max, GLM-5 xhigh, MiniMax highspeed)',
+    cost: '$$$$',
+    bestFor: 'Complex architecture, deep reasoning, max quality'
+  },
+  'omo-codex': {
+    file: 'omo-codex.json',
+    desc: 'Premium OpenAI (GPT-5.4 high/xhigh, GPT-5.4-mini, GPT-5-nano)',
+    cost: '$$$$',
+    bestFor: 'When you have OpenAI credits and want consistent quality'
+  },
+  'omo-daily': {
+    file: 'omo-daily.json',
+    desc: 'Balanced daily driver (GPT-5.4-mini primary, Kimi fallback, nano for quick)',
+    cost: '$$',
+    bestFor: 'Everyday coding with good quality and cost balance'
+  },
+  'omo-fast': {
+    file: 'omo-fast.json',
+    desc: 'Fast & coding focused (GPT-5.3-codex-spark primary, nano for quick)',
+    cost: '$',
+    bestFor: 'Rapid iterations, coding tasks, speed over depth'
+  },
+  'omo-free': {
+    file: 'omo-free.json',
+    desc: 'Free tier only (Kimi-free, Big Pickle, GPT-5-nano)',
+    cost: 'FREE',
+    bestFor: 'Zero cost, use when quota is exhausted'
+  },
+  'frugal': {
+    file: 'frugal.json',
+    desc: 'Legacy frugal (avoids GLM-5, ~60-70% savings)',
+    cost: '$$',
+    bestFor: 'Balanced savings without free-tier limits'
+  },
+  'dirt-cheap': {
+    file: 'dirt-cheap.json',
+    desc: 'Legacy dirt-cheap (DeepSeek Flash + Qwen 3.5 Plus)',
+    cost: '$',
+    bestFor: 'Maximum savings, acceptable quality drop'
+  }
+};
+
+function getProfileDir() {
+  // If running from npm package, profiles are in ../profiles
+  // If running from git repo, same
+  const tryPaths = [
+    path.join(__dirname, '..', 'profiles'),
+    path.join(__dirname, '..', '..', 'profiles'),
+    path.join(process.cwd(), 'profiles')
+  ];
+  for (const p of tryPaths) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+function getCommandsDir() {
+  const tryPaths = [
+    path.join(__dirname, '..', 'commands'),
+    path.join(__dirname, '..', '..', 'commands'),
+    path.join(process.cwd(), 'commands')
+  ];
+  for (const p of tryPaths) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
+function ensureConfigDir() {
+  if (!fs.existsSync(CONFIG_DIR)) {
+    fs.mkdirSync(CONFIG_DIR, { recursive: true });
+  }
+  if (!fs.existsSync(COMMANDS_DIR)) {
+    fs.mkdirSync(COMMANDS_DIR, { recursive: true });
+  }
+}
+
+function backupCurrent() {
+  if (!fs.existsSync(TARGET_FILE)) return;
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const backupPath = path.join(CONFIG_DIR, `oh-my-openagent.json.backup-${timestamp}`);
+  fs.copyFileSync(TARGET_FILE, backupPath);
+  return backupPath;
+}
+
+function getActiveProfile() {
+  if (!fs.existsSync(TARGET_FILE)) return null;
+  try {
+    const stat = fs.lstatSync(TARGET_FILE);
+    if (stat.isSymbolicLink()) {
+      const link = fs.readlinkSync(TARGET_FILE);
+      const base = path.basename(link, '.json');
+      // Handle naming like oh-my-openagent.omo-daily.json -> omo-daily
+      const match = base.match(/oh-my-openagent\.(.*)/);
+      if (match) return match[1];
+      return base;
+    }
+    // Check if file content matches any known profile
+    const content = fs.readFileSync(TARGET_FILE, 'utf8');
+    const profileDir = getProfileDir();
+    if (profileDir) {
+      for (const [name, info] of Object.entries(PROFILES)) {
+        const pFile = path.join(profileDir, info.file);
+        if (fs.existsSync(pFile)) {
+          const pContent = fs.readFileSync(pFile, 'utf8');
+          if (content.trim() === pContent.trim()) return name;
+        }
+      }
+    }
+    return 'custom';
+  } catch (e) {
+    return 'unknown';
+  }
+}
+
+function switchProfile(name) {
+  const profile = PROFILES[name];
+  if (!profile) {
+    console.error(`❌ Unknown profile: ${name}`);
+    console.error(`Run 'omo list' to see available profiles.`);
+    process.exit(1);
+  }
+
+  const profileDir = getProfileDir();
+  if (!profileDir) {
+    console.error('❌ Could not find profiles directory. Are you running from the repo?');
+    process.exit(1);
+  }
+
+  const sourceFile = path.join(profileDir, profile.file);
+  if (!fs.existsSync(sourceFile)) {
+    console.error(`❌ Profile file not found: ${sourceFile}`);
+    process.exit(1);
+  }
+
+  ensureConfigDir();
+  const backup = backupCurrent();
+
+  // Remove existing file or symlink
+  if (fs.existsSync(TARGET_FILE)) {
+    fs.unlinkSync(TARGET_FILE);
+  }
+
+  // Copy file (more portable than symlink on all platforms)
+  fs.copyFileSync(sourceFile, TARGET_FILE);
+
+  console.log(`✅ Switched to profile: ${name}`);
+  console.log(`   ${profile.desc}`);
+  console.log(`   Cost tier: ${profile.cost} | Best for: ${profile.bestFor}`);
+  if (backup) {
+    console.log(`   Backup saved: ${path.basename(backup)}`);
+  }
+}
+
+function installCommands() {
+  const srcDir = getCommandsDir();
+  if (!srcDir) {
+    console.error('❌ Could not find commands directory.');
+    process.exit(1);
+  }
+  ensureConfigDir();
+  const files = fs.readdirSync(srcDir).filter(f => f.endsWith('.md'));
+  let installed = 0;
+  for (const file of files) {
+    const src = path.join(srcDir, file);
+    const dest = path.join(COMMANDS_DIR, file);
+    fs.copyFileSync(src, dest);
+    installed++;
+  }
+  console.log(`✅ Installed ${installed} custom commands to ${COMMANDS_DIR}`);
+}
+
+function showList() {
+  const active = getActiveProfile();
+  console.log('\n📋 Available Profiles\n');
+  console.log(`${'Name'.padEnd(14)} ${'Cost'.padEnd(6)} ${'Description'.padEnd(50)} Best For`);
+  console.log('-'.repeat(100));
+  for (const [name, info] of Object.entries(PROFILES)) {
+    const marker = active === name ? '▶ ' : '  ';
+    console.log(
+      `${marker}${name.padEnd(12)} ${info.cost.padEnd(6)} ${info.desc.padEnd(50)} ${info.bestFor}`
+    );
+  }
+  if (active) {
+    console.log(`\n🟢 Active: ${active}`);
+  }
+  console.log('');
+}
+
+function showStatus() {
+  const active = getActiveProfile();
+  if (!active) {
+    console.log('⚠️  No active profile found.');
+    return;
+  }
+  const info = PROFILES[active] || { desc: 'Custom config', cost: '?', bestFor: 'Unknown' };
+  console.log('\n📊 OMO Status\n');
+  console.log(`Active profile: ${active}`);
+  console.log(`Description:    ${info.desc}`);
+  console.log(`Cost tier:      ${info.cost}`);
+  console.log(`Best for:       ${info.bestFor}`);
+  console.log(`Config path:    ${TARGET_FILE}`);
+  console.log('');
+}
+
+function showCompare() {
+  console.log('\n🔍 Profile Comparison\n');
+  const active = getActiveProfile();
+
+  // Print header
+  const names = Object.keys(PROFILES);
+  const header = 'Dimension'.padEnd(18) + names.map(n => n.padEnd(14)).join('');
+  console.log(header);
+  console.log('-'.repeat(header.length));
+
+  // Cost
+  console.log('Cost'.padEnd(18) + names.map(n => PROFILES[n].cost.padEnd(14)).join(''));
+
+  // Primary models (parse from JSON)
+  const profileDir = getProfileDir();
+  const getPrimary = (name) => {
+    const file = path.join(profileDir, PROFILES[name].file);
+    try {
+      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+      return json.agents?.sisyphus?.model?.replace('opencode-go/', '').replace('openai/', '') || '-';
+    } catch { return '-'; }
+  };
+  console.log('Orchestrator'.padEnd(18) + names.map(n => getPrimary(n).padEnd(14)).join(''));
+
+  // Quick category
+  const getQuick = (name) => {
+    const file = path.join(profileDir, PROFILES[name].file);
+    try {
+      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+      return json.categories?.quick?.model?.replace('opencode-go/', '').replace('openai/', '') || '-';
+    } catch { return '-'; }
+  };
+  console.log('Quick Tasks'.padEnd(18) + names.map(n => getQuick(n).padEnd(14)).join(''));
+
+  const marker = n => active === n ? ' ← active' : '';
+  console.log('\n' + names.map(n => `${n}${marker(n)}`).join(' | '));
+  console.log('');
+}
+
+function showHelp() {
+  console.log(`
+OMO - Oh My Openagent Config Manager
+
+Usage:
+  omo <profile>           Switch to a profile
+  omo list                List all profiles
+  omo status              Show current profile
+  omo compare             Compare all profiles
+  omo install-commands    Copy custom commands to ~/.config/opencode/commands
+  omo setup               Full setup (config dir + commands)
+  omo help                Show this help
+
+Profiles:
+  omo-go        Premium opencode-go models (max quality)
+  omo-codex     Premium OpenAI models (consistent quality)
+  omo-daily     Balanced daily driver (recommended)
+  omo-fast      Fast coding mode (speed first)
+  omo-free      Free tier only (zero cost)
+  frugal        Legacy: avoids GLM-5 (~60% savings)
+  dirt-cheap    Legacy: cheapest models (~90% savings)
+
+Examples:
+  omo omo-daily           Switch to daily driver
+  omo omo-fast            Switch to fast mode
+  omo status              Check current profile
+`);
+}
+
+function runSetup() {
+  ensureConfigDir();
+  console.log('🔧 OMO Setup\n');
+  console.log(`Config dir:  ${CONFIG_DIR}`);
+  console.log(`Target file: ${TARGET_FILE}`);
+  console.log('');
+
+  const active = getActiveProfile();
+  if (!active) {
+    console.log('No active config found. Installing omo-daily as default...');
+    switchProfile('omo-daily');
+  } else {
+    console.log(`Active profile: ${active}`);
+  }
+
+  installCommands();
+  console.log('\n✅ Setup complete!');
+  console.log('   Run "omo list" to see all profiles');
+  console.log('   Run "omo <profile>" to switch');
+}
+
+// Main
+const args = process.argv.slice(2);
+const cmd = args[0];
+
+if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') {
+  showHelp();
+} else if (cmd === 'list') {
+  showList();
+} else if (cmd === 'status') {
+  showStatus();
+} else if (cmd === 'compare') {
+  showCompare();
+} else if (cmd === 'install-commands') {
+  installCommands();
+} else if (cmd === 'setup') {
+  runSetup();
+} else if (PROFILES[cmd]) {
+  switchProfile(cmd);
+} else {
+  console.error(`❌ Unknown command or profile: ${cmd}`);
+  console.error(`Run 'omo help' for usage.`);
+  process.exit(1);
+}
