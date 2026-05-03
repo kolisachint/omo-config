@@ -15,7 +15,7 @@ Pick your provider, pick your tier:
 
 | Provider | premium | daily | fast | free |
 |----------|---------|-------|------|------|
-| **OpenAI (codex)** | GPT-5.4 high/xhigh | GPT-5.4-mini | GPT-5.3-codex-spark | GPT-5-nano |
+| **OpenAI (codex)** | GPT-5.5 + GPT-5.4 | GPT-5.4 | GPT-5.4-mini + Spark | GPT-5.4-mini + Spark |
 | **OpenCode Go** | GLM-5.1 + Kimi K2.6 | Kimi K2.5 + DeepSeek V4 Pro | MiniMax M2.5 + DeepSeek V4 Flash | Kimi-free + Big Pickle |
 | **GitHub Copilot** | Claude Sonnet 4 + GPT-4o | GPT-4o | o3-mini | Nano fallback |
 | **Anthropic (claude)** | Claude Opus 4 + Sonnet 4 | Claude Sonnet 4 | Claude Haiku 3.5 | Nano fallback |
@@ -95,6 +95,7 @@ npx omo-config codex-daily
 
 ## Model Notes
 
+- **OpenAI (codex)** `-free` is not actually free — Codex has no zero-cost tier. It uses the cheapest Codex models (`gpt-5.4-mini` / `gpt-5.3-codex-spark`).
 - **GitHub Copilot** models require an active Copilot subscription. The `-free` profiles fall back to OpenAI nano/Big Pickle when Copilot quota is exhausted.
 - **Claude** API is not free. The `-free` profiles use OpenAI nano/Big Pickle as fallback.
 - **Gemini** has a generous free tier, so `gemini-free` and `gemini-fast` can be nearly identical.

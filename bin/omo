@@ -19,29 +19,29 @@ const PROFILES = {
     file: 'codex-premium.json',
     provider: 'OpenAI',
     tier: 'premium',
-    desc: 'GPT-5.4 high/xhigh — max quality, max cost',
+    desc: 'GPT-5.5 + GPT-5.4 — newest frontier, max quality',
     cost: '$$$$'
   },
   'codex-daily': {
     file: 'codex-daily.json',
     provider: 'OpenAI',
     tier: 'daily',
-    desc: 'GPT-5.4-mini primary — balanced quality & cost',
+    desc: 'GPT-5.4 primary — flagship balance of quality & cost',
     cost: '$$'
   },
   'codex-fast': {
     file: 'codex-fast.json',
     provider: 'OpenAI',
     tier: 'fast',
-    desc: 'GPT-5.3-codex-spark — speed first, lowest latency',
+    desc: 'GPT-5.4-mini + GPT-5.3-codex-spark — speed first',
     cost: '$'
   },
   'codex-free': {
     file: 'codex-free.json',
     provider: 'OpenAI',
     tier: 'free',
-    desc: 'GPT-5-nano everywhere — zero cost fallback',
-    cost: 'FREE'
+    desc: 'GPT-5.4-mini + GPT-5.3-codex-spark — cheapest Codex tier',
+    cost: '$'
   },
   'opencodego-premium': {
     file: 'opencodego-premium.json',
