@@ -1,0 +1,61 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "sisyphus": {
+      "model": "nvidia/qwen2.5-coder-14b"
+    },
+    "hephaestus": {
+      "model": "nvidia/codestral"
+    },
+    "oracle": {
+      "model": "nvidia/deepseek-v2-lite"
+    },
+    "librarian": {
+      "model": "nvidia/gemma-3-12b"
+    },
+    "explore": {
+      "model": "nvidia/qwen2.5-coder-14b"
+    },
+    "multimodal-looker": {
+      "model": "nvidia/llama-3.1-8b-instruct"
+    },
+    "prometheus": {
+      "model": "nvidia/qwen2.5-coder-14b"
+    },
+    "metis": {
+      "model": "nvidia/qwen2.5-coder-14b"
+    },
+    "momus": {
+      "model": "nvidia/codestral"
+    },
+    "atlas": {
+      "model": "nvidia/deepseek-v2-lite"
+    },
+    "sisyphus-junior": {
+      "model": "nvidia/gemma-3-12b"
+    }
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "nvidia/llama-3.1-8b-instruct"
+    },
+    "ultrabrain": {
+      "model": "nvidia/qwen2.5-coder-14b"
+    },
+    "deep": {
+      "model": "nvidia/qwen2.5-coder-14b"
+    },
+    "quick": {
+      "model": "nvidia/codestral"
+    },
+    "unspecified-low": {
+      "model": "nvidia/gemma-3-12b"
+    },
+    "unspecified-high": {
+      "model": "nvidia/qwen2.5-coder-14b"
+    },
+    "writing": {
+      "model": "nvidia/deepseek-v2-lite"
+    }
+  }
+}
